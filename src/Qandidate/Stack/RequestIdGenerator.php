@@ -5,10 +5,10 @@ namespace Qandidate\Stack;
 /**
  * Generates request ids.
  */
-abstract class RequestIdGenerator
+interface RequestIdGenerator
 {
     /**
      * @return string
      */
-    abstract public function generate();
+    public function generate();
 }

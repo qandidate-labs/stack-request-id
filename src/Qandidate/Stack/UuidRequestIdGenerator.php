@@ -7,7 +7,7 @@ use Rhumsaa\Uuid\Uuid;
 /**
  * Generates a uuid for the request id.
  */
-class UuidRequestIdGenerator extends RequestIdGenerator
+class UuidRequestIdGenerator implements RequestIdGenerator
 {
     private $nodeId;
 
