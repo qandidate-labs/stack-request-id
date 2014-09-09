@@ -1,0 +1,32 @@
+{
+    "name": "qandidate/stack-request-id",
+    "description": "Middleware for adding request id to Symfony Request.",
+    "license": "MIT",
+    "require": {
+        "symfony/http-kernel": "~2.1",
+        "symfony/http-foundation": "~2.1",
+        "rhumsaa/uuid": "~2.0"
+    },
+    "authors": [
+        {
+            "name": "Alexander",
+            "email": "iam.asm89@gmail.com"
+        },
+        {
+            "name": "Fritsjan",
+            "email": "fritsjan@qandidate.com"
+        },
+        {
+            "name": "Qandidate.com",
+            "homepage": "http://labs.qandidate.com/"
+        }
+    ],
+    "suggest": {
+        "symfony/monolog-bundle": "For registering the MonologProcessor"
+    },
+    "autoload": {
+        "psr-0": {
+            "Qandidate\\Stack": "src/"
+        }
+    }
+}
