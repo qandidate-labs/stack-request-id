@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * Middleware adding a unique request id to the request if it is not present.
  */
-class RequestId
+class RequestId implements HttpKernelInterface
 {
     private $app;
     private $generator;
@@ -22,6 +22,9 @@ class RequestId
         $this->header    = $header;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
     {
         if ( ! $request->headers->has($this->header)) {
