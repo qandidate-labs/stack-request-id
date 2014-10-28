@@ -15,7 +15,7 @@ $ composer require qandidate/stack-request-id ~0.1.0
 Update your `app.php` to include the middleware:
 
 Before:
-```
+```php5
 use Symfony\Component\HttpFoundation\Request;
 
 $kernel = new AppKernel($env, $debug);
@@ -28,7 +28,7 @@ $kernel->terminate($request, $response);
 ```
 
 After:
-```
+```php5
 use Qandidate\Stack\RequestId;
 use Qandidate\Stack\UuidRequestIdGenerator;
 use Symfony\Component\HttpFoundation\Request;
