@@ -58,3 +58,18 @@ If you use Symfony's [MonologBundle] you can add the request id to your monolog 
 ```
 
 [MonologBundle]: https://github.com/symfony/MonologBundle
+
+## Adding the request id to responses
+If you need to send the request id back with the response you can enable the response header:
+
+```php5
+$generator = new UuidRequestIdGenerator(1337);
+$stack = new RequestId($kernel, $generator);
+$stack->enableResponseHeader();
+```
+
+It is also possible to change response header's name:
+
+```php5
+$stack->enableResponseHeader('My-Custom-Request-Id');
+```

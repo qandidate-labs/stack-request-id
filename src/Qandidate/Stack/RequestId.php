@@ -23,6 +23,7 @@ class RequestId implements HttpKernelInterface
     private $app;
     private $generator;
     private $header;
+    private $responseHeader;
 
     public function __construct(HttpKernelInterface $app, RequestIdGenerator $generator, $header = 'X-Request-Id')
     {
@@ -40,6 +41,17 @@ class RequestId implements HttpKernelInterface
             $request->headers->set($this->header, $this->generator->generate());
         }
 
-        return $this->app->handle($request, $type, $catch);
+        $response = $this->app->handle($request, $type, $catch);
+
+        if (null !== $this->responseHeader) {
+            $response->headers->set($this->responseHeader, $request->headers->get($this->header));
+        }
+
+        return $response;
+    }
+
+    public function enableResponseHeader($header = 'X-Request-Id')
+    {
+        $this->responseHeader = $header;
     }
 }
