@@ -67,6 +67,52 @@ class RequestIdTest extends TestCase
         $this->assertEquals('foo', $this->app->getLastHeaderValue());
     }
 
+    /**
+     * @test
+     */
+    public function it_sets_the_request_id_in_the_response_header_if_enabled()
+    {
+        $this->stackedApp->enableResponseHeader();
+
+        $this->requestIdGenerator->expects($this->any())
+            ->method('generate')
+            ->will($this->returnValue('yolo'));
+
+        $response = $this->stackedApp->handle($this->createRequest());
+
+        $this->assertSame('yolo', $response->headers->get($this->header));
+    }
+
+    /**
+     * @test
+     */
+    public function it_sets_the_request_id_in_a_custom_response_header_if_given()
+    {
+        $this->stackedApp->enableResponseHeader('Request-Id');
+
+        $this->requestIdGenerator->expects($this->any())
+            ->method('generate')
+            ->will($this->returnValue('yolo'));
+
+        $response = $this->stackedApp->handle($this->createRequest());
+
+        $this->assertSame('yolo', $response->headers->get('Request-Id'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_set_the_request_id_in_the_response_header_by_default()
+    {
+        $this->requestIdGenerator->expects($this->any())
+            ->method('generate')
+            ->will($this->returnValue('yolo'));
+
+        $response = $this->stackedApp->handle($this->createRequest());
+
+        $this->assertFalse($response->headers->has($this->header), 'The request id is not added to the response by default');
+    }
+
     private function createRequest($requestId = null)
     {
         $request  = new Request();
