@@ -73,3 +73,34 @@ It is also possible to change response header's name:
 ```php5
 $stack->enableResponseHeader('My-Custom-Request-Id');
 ```
+
+If you don't have access to the `RequestId` object instance (StackPHP, for example) the response header can be set via
+the fourth argument of the `RequestId` constructor method.
+
+```php5
+$generator = new UuidRequestIdGenerator(1337);
+$stack = new RequestId($kernel, $generator, 'X-Request-Id', 'My-Custom-Request-Id');
+```
+
+The third argument, for reference, is the name of the header:
+- That will be checked for a value before falling back to generating a new request ID,
+- Used to store the resulting request ID inside Symfony's request object.
+
+## StackPHP's Middleware Builder
+If you are already using [StackPHP](http://stackphp.com), just push the `RequestId` class into the builder.
+
+```php5
+$kernel = new AppKernel('dev', true);
+
+$generator = new UuidRequestIdGenerator(1337);
+$stack = (new Stack\Builder)
+    ->push('Qandidate\Stack\RequestId', $generator, 'X-Request-Id', 'X-Request-Id')
+    ->resolve($kernel);
+
+$kernel->loadClassCache();
+
+$request = Request::createFromGlobals();
+$response = $stack->handle($request);
+$response->send();
+$kernel->terminate($request, $response);
+```
