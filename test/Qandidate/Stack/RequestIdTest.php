@@ -102,6 +102,48 @@ class RequestIdTest extends TestCase
     /**
      * @test
      */
+    public function it_can_set_the_response_header_from_the_constructor_argument()
+    {
+        $this->requestIdGenerator->expects($this->any())
+            ->method('generate')
+            ->will($this->returnValue('yolo'));
+
+        $responseHeader = 'Request-Id';
+
+        $this->stackedApp->enableResponseHeader($responseHeader);
+        $normalResponse = $this->stackedApp->handle($this->createRequest());
+
+        $alternateStackedApp = new RequestId($this->app, $this->requestIdGenerator, $this->header, $responseHeader);
+        $alternateResponse = $alternateStackedApp->handle($this->createRequest());
+
+        $this->assertSame('yolo', $alternateResponse->headers->get($responseHeader));
+        $this->assertSame(
+            $normalResponse->headers->get($responseHeader),
+            $alternateResponse->headers->get($responseHeader)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_override_the_response_header_argument_with_the_response_header_method()
+    {
+        $this->requestIdGenerator->expects($this->any())
+            ->method('generate')
+            ->will($this->returnValue('yolo'));
+
+        $alternateStackedApp = new RequestId($this->app, $this->requestIdGenerator, $this->header, 'Bad-Request-Id');
+        $alternateStackedApp->enableResponseHeader('Good-Request-Id');
+
+        $response = $alternateStackedApp->handle($this->CreateRequest());
+
+        $this->assertFalse($response->headers->has('Bad-Request-Id'));
+        $this->assertTrue($response->headers->has('Good-Request-Id'));
+    }
+
+    /**
+     * @test
+     */
     public function it_does_not_set_the_request_id_in_the_response_header_by_default()
     {
         $this->requestIdGenerator->expects($this->any())
