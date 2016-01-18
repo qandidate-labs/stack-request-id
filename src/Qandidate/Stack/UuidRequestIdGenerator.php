@@ -11,8 +11,6 @@
 
 namespace Qandidate\Stack;
 
-use Rhumsaa\Uuid\Uuid;
-
 /**
  * Generates a uuid for the request id.
  */
@@ -33,6 +31,12 @@ class UuidRequestIdGenerator implements RequestIdGenerator
      */
     public function generate()
     {
-        return Uuid::uuid1($this->nodeId)->toString();
+        if (class_exists('Ramsey\Uuid\Uuid')) {
+            return \Ramsey\Uuid\Uuid::uuid1($this->nodeId)->toString();
+        } elseif (class_exists('Rhumsaa\Uuid\Uuid')) {
+            return \Rhumsaa\Uuid\Uuid::uuid1($this->nodeId)->toString();
+        } else {
+            throw new \LogicException('UuidRequestIdGenerator requires library ramsey/uuid.');
+        }
     }
 }
