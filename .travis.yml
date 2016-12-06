@@ -4,11 +4,21 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
   - hhvm
   - hhvm-nightly
 
 matrix:
+  include:
+    - php: 7.0
+      env: UUID_VERSION='~2.0'
+    - php: 7.0
+      env: UUID_VERSION='~3.0'
   allow_failures:
     - php: hhvm-nightly
 
-install: composer install
+before_install:
+  - if [ "$UUID_VERSION" != "" ]; then composer require --dev --no-update ramsey/uuid=$UUID_VERSION; fi
+
+install:
+  - composer update --prefer-dist
