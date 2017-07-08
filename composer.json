@@ -28,5 +28,13 @@
         "psr-0": {
             "Qandidate\\Stack": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "Qandidate\\Stack": "test/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
     }
 }

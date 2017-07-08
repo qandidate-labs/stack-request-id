@@ -22,3 +22,6 @@ before_install:
 
 install:
   - composer update --prefer-dist
+
+script:
+  - vendor/bin/phpunit --exclude-group=none
