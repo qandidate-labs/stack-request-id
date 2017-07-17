@@ -8,7 +8,7 @@ Middleware for adding a request id to your Symfony Requests
 First, add this project to your project's composer.json
 
 ```
-$ composer require qandidate/stack-request-id ~0.1.0
+$ composer require qandidate/stack-request-id ^1.0
 ```
 
 ## Setting up
