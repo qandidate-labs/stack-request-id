@@ -3,7 +3,7 @@
     "description": "Middleware for adding request id to Symfony Request.",
     "license": "MIT",
     "require": {
-        "symfony/http-kernel": "^2.7||^3.0||^4.0",
+        "symfony/http-kernel": "^5.0.4",
         "symfony/http-foundation": "^2.7||^3.0||^4.0",
         "ramsey/uuid": "~2.0|~3.0"
     },
