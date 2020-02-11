@@ -11,6 +11,8 @@
 
 namespace Qandidate\Stack;
 
+use PHPUnit\Framework\TestCase;
+
 class UuidRequestIdGeneratorTest extends TestCase
 {
     /**
@@ -20,6 +22,6 @@ class UuidRequestIdGeneratorTest extends TestCase
     {
         $generator = new UuidRequestIdGenerator();
 
-        $this->assertInternalType('string', $generator->generate());
+        $this->assertIsString($generator->generate());
     }
 }

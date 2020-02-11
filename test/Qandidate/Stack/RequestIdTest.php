@@ -11,6 +11,7 @@
 
 namespace Qandidate\Stack;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -22,9 +23,9 @@ class RequestIdTest extends TestCase
     private $stackedApp;
     private $header = 'X-Request-Id';
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->requestIdGenerator = $this->getMock('Qandidate\Stack\RequestIdGenerator');
+        $this->requestIdGenerator = $this->createMock('Qandidate\Stack\RequestIdGenerator');
         $this->app                = new MockApp($this->header);
         $this->stackedApp         = new RequestId($this->app, $this->requestIdGenerator, $this->header);
     }
