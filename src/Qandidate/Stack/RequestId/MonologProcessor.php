@@ -11,7 +11,7 @@
 
 namespace Qandidate\Stack\RequestId;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * Processor to add the request id to monolog records.
@@ -29,7 +29,7 @@ class MonologProcessor
         $this->header = $header;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         $request         = $event->getRequest();
         $this->requestId = $request->headers->get($this->header, false);

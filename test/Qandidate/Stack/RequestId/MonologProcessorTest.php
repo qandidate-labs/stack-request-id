@@ -13,6 +13,7 @@ namespace Qandidate\Stack\RequestId;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class MonologProcessorTest extends TestCase
 {
@@ -69,7 +70,7 @@ class MonologProcessorTest extends TestCase
 
     private function createGetResponseEvent($requestId = false)
     {
-        $getResponseEventMock = $this->createMock('Symfony\Component\HttpKernel\Event\GetResponseEvent');
+        $getResponseEventMock = $this->createMock(RequestEvent::class);
 
         $request = new Request();
 
