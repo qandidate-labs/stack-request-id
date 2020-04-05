@@ -5,7 +5,7 @@
     "require": {
         "symfony/http-kernel": "^3.4||^4.4||^5.0",
         "symfony/http-foundation": "^3.4||^4.4||^5.0,>=5.0.7",
-        "ramsey/uuid": "~2.0|~3.0"
+        "ramsey/uuid": "^4.0.1"
     },
     "authors": [
         {
