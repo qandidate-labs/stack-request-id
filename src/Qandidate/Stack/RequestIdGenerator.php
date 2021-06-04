@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the qandidate/stack-request-id package.
  *
@@ -16,8 +18,5 @@ namespace Qandidate\Stack;
  */
 interface RequestIdGenerator
 {
-    /**
-     * @return string
-     */
-    public function generate();
+    public function generate(): string;
 }

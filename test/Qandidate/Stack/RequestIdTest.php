@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the qandidate/stack-request-id package.
  *
@@ -26,8 +28,8 @@ class RequestIdTest extends TestCase
     public function setUp(): void
     {
         $this->requestIdGenerator = $this->createMock('Qandidate\Stack\RequestIdGenerator');
-        $this->app                = new MockApp($this->header);
-        $this->stackedApp         = new RequestId($this->app, $this->requestIdGenerator, $this->header);
+        $this->app = new MockApp($this->header);
+        $this->stackedApp = new RequestId($this->app, $this->requestIdGenerator, $this->header);
     }
 
     /**
@@ -158,7 +160,7 @@ class RequestIdTest extends TestCase
 
     private function createRequest($requestId = null)
     {
-        $request  = new Request();
+        $request = new Request();
 
         if ($requestId) {
             $request->headers->set($this->header, $requestId);
@@ -166,7 +168,6 @@ class RequestIdTest extends TestCase
 
         return $request;
     }
-
 }
 
 class MockApp implements HttpKernelInterface
