@@ -1,0 +1,12 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Qandidate\\\\Stack\\\\RequestId\\\\MonologProcessor\\:\\:__invoke\\(\\) has parameter \\$record with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Qandidate/Stack/RequestId/MonologProcessor.php
+
+		-
+			message: "#^Method Qandidate\\\\Stack\\\\RequestId\\\\MonologProcessor\\:\\:__invoke\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Qandidate/Stack/RequestId/MonologProcessor.php
+

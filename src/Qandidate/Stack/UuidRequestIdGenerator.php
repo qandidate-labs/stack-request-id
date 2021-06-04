@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the qandidate/stack-request-id package.
  *
@@ -11,48 +13,30 @@
 
 namespace Qandidate\Stack;
 
-use LogicException;
+use Ramsey\Uuid\Type\Hexadecimal;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Generates a uuid for the request id.
  */
 class UuidRequestIdGenerator implements RequestIdGenerator
 {
+    /** @var mixed */
     private $nodeId;
 
-    private $className;
-
     /**
-     * @param null|string|integer $nodeId
-     * @param null|string         $className
+     * @param Hexadecimal|int|string|null $nodeId
      */
     public function __construct($nodeId = null)
     {
         $this->nodeId = $nodeId;
-        $this->className = $this->getClassName();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function generate()
+    public function generate(): string
     {
-        return call_user_func([$this->className, 'uuid1'], $this->nodeId)->toString();
-    }
-
-    /**
-     * @return string
-     */
-    private function getClassName()
-    {
-        if (class_exists('Ramsey\Uuid\Uuid')) {
-            return '\Ramsey\Uuid\Uuid';
-        }
-
-        if (class_exists('Rhumsaa\Uuid\Uuid')) {
-            return '\Rhumsaa\Uuid\Uuid';
-        }
-
-        throw new LogicException('UuidRequestIdGenerator requires library ramsey/uuid.');
+        return Uuid::uuid1($this->nodeId)->toString();
     }
 }

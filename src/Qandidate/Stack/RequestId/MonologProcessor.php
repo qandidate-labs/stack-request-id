@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the qandidate/stack-request-id package.
  *
@@ -18,24 +20,24 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
  */
 class MonologProcessor
 {
+    /** @var string */
     private $header;
+
+    /** @var string|null */
     private $requestId;
 
-    /**
-     * @param string $header
-     */
-    public function __construct($header = 'X-Request-Id')
+    public function __construct(string $header = 'X-Request-Id')
     {
         $this->header = $header;
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
-        $request         = $event->getRequest();
-        $this->requestId = $request->headers->get($this->header, false);
+        $request = $event->getRequest();
+        $this->requestId = (string) $request->headers->get($this->header, '');
     }
 
-    public function __invoke(array $record)
+    public function __invoke(array $record): array
     {
         if ($this->requestId) {
             $record['extra']['request_id'] = $this->requestId;

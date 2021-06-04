@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the qandidate/stack-request-id package.
  *
@@ -30,8 +32,8 @@ class MonologProcessorTest extends TestCase
      */
     public function it_adds_the_request_id_if_it_was_available_in_the_request()
     {
-        $record           = array('message' => 'w00t w00t');
-        $requestId        = 'ea1379-42';
+        $record = ['message' => 'w00t w00t'];
+        $requestId = 'ea1379-42';
         $getResponseEvent = $this->createGetResponseEvent($requestId);
 
         $this->processor->onKernelRequest($getResponseEvent);
@@ -47,7 +49,7 @@ class MonologProcessorTest extends TestCase
      */
     public function it_leaves_the_record_untouched_if_no_request_id_was_available_in_the_request()
     {
-        $record           = array('message' => 'w00t w00t');
+        $record = ['message' => 'w00t w00t'];
         $getResponseEvent = $this->createGetResponseEvent();
 
         $this->processor->onKernelRequest($getResponseEvent);
@@ -56,12 +58,13 @@ class MonologProcessorTest extends TestCase
 
         $this->assertEquals($expectedRecord, $this->invokeProcessor($record));
     }
+
     /**
      * @test
      */
     public function it_leaves_the_record_untouched_if_no_request_was_handled()
     {
-        $record = array('message' => 'w00t w00t');
+        $record = ['message' => 'w00t w00t'];
 
         $expectedRecord = $record;
 
@@ -88,6 +91,6 @@ class MonologProcessorTest extends TestCase
 
     private function invokeProcessor(array $record)
     {
-        return call_user_func_array($this->processor, array($record));
+        return call_user_func_array($this->processor, [$record]);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the qandidate/stack-request-id package.
  *
@@ -12,7 +14,6 @@
 namespace Qandidate\Stack;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -20,42 +21,49 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class RequestId implements HttpKernelInterface
 {
+    /** @var HttpKernelInterface */
     private $app;
+
+    /** @var RequestIdGenerator */
     private $generator;
+
+    /** @var string */
     private $header;
+
+    /** @var string|null */
     private $responseHeader;
 
     public function __construct(
         HttpKernelInterface $app,
         RequestIdGenerator $generator,
-        $header = 'X-Request-Id',
-        $responseHeader = null
+        string $header = 'X-Request-Id',
+        ?string $responseHeader = null
     ) {
-        $this->app            = $app;
-        $this->generator      = $generator;
-        $this->header         = $header;
+        $this->app = $app;
+        $this->generator = $generator;
+        $this->header = $header;
         $this->responseHeader = $responseHeader;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    public function handle(Request $request, int $type = HttpKernelInterface::MAIN_REQUEST, bool $catch = true)
     {
-        if ( ! $request->headers->has($this->header)) {
+        if (!$request->headers->has($this->header)) {
             $request->headers->set($this->header, $this->generator->generate());
         }
 
         $response = $this->app->handle($request, $type, $catch);
 
         if (null !== $this->responseHeader) {
-            $response->headers->set($this->responseHeader, $request->headers->get($this->header));
+            $response->headers->set($this->responseHeader, (string) $request->headers->get($this->header, ''));
         }
 
         return $response;
     }
 
-    public function enableResponseHeader($header = 'X-Request-Id')
+    public function enableResponseHeader(string $header = 'X-Request-Id'): void
     {
         $this->responseHeader = $header;
     }
