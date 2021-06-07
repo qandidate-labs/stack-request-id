@@ -2,7 +2,7 @@ stack-request-id
 =====
 Middleware for adding a request id to your Symfony Requests
 
-[![Build Status](https://travis-ci.org/qandidate-labs/stack-request-id.svg?branch=master)](https://travis-ci.org/qandidate-labs/stack-request-id)
+![build status](https://github.com/qandidate-labs/stack-request-id/actions/workflows/ci.yml/badge.svg)
 
 ## Installation
 First, add this project to your project's composer.json
