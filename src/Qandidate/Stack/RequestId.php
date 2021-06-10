@@ -48,7 +48,7 @@ class RequestId implements HttpKernelInterface
     /**
      * {@inheritDoc}
      */
-    public function handle(Request $request, int $type = HttpKernelInterface::MAIN_REQUEST, bool $catch = true)
+    public function handle(Request $request, int $type = HttpKernelInterface::MASTER_REQUEST, bool $catch = true)
     {
         if (!$request->headers->has($this->header)) {
             $request->headers->set($this->header, $this->generator->generate());
