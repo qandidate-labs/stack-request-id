@@ -21,7 +21,7 @@ use Ramsey\Uuid\Uuid;
  */
 class UuidRequestIdGenerator implements RequestIdGenerator
 {
-    /** @var mixed */
+    /** @var Hexadecimal|int|string|null */
     private $nodeId;
 
     /**
