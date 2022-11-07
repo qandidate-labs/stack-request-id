@@ -180,7 +180,7 @@ class MockApp implements HttpKernelInterface
         $this->recordHeader = $recordHeader;
     }
 
-    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    public function handle(Request $request, int $type = HttpKernelInterface::MASTER_REQUEST, bool $catch = true): Response
     {
         $this->headerValue = $request->headers->get($this->recordHeader);
 

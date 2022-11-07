@@ -16,11 +16,14 @@ jobs:
     runs-on: "ubuntu-20.04"
     strategy:
       matrix:
-        php-version:
-          - "7.4"
+        php-version: # https://www.php.net/supported-versions.php
           - "8.0"
           - "8.1"
           - "8.2"
+        symfony-version: # https://symfony.com/releases
+          - "6.0"
+          - "6.1"
+          - "6.2"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"
@@ -35,6 +38,8 @@ jobs:
         run: "composer validate --strict --no-interaction --ansi"
       - name: "Install dependencies with Composer"
         uses: "ramsey/composer-install@v1"
+        env:
+          SYMFONY_REQUIRE: "${{ matrix.symfony-version }}"
       - name: "Run tests"
         run: "make test"
 
