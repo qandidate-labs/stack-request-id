@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Qandidate\Stack;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -37,7 +38,7 @@ class RequestId implements HttpKernelInterface
         HttpKernelInterface $app,
         RequestIdGenerator $generator,
         string $header = 'X-Request-Id',
-        ?string $responseHeader = null
+        ?string $responseHeader = null,
     ) {
         $this->app = $app;
         $this->generator = $generator;
@@ -45,10 +46,7 @@ class RequestId implements HttpKernelInterface
         $this->responseHeader = $responseHeader;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function handle(Request $request, int $type = HttpKernelInterface::MASTER_REQUEST, bool $catch = true)
+    public function handle(Request $request, int $type = HttpKernelInterface::MAIN_REQUEST, bool $catch = true): Response
     {
         if (!$request->headers->has($this->header)) {
             $request->headers->set($this->header, $this->generator->generate());

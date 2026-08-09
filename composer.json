@@ -3,8 +3,9 @@
     "description": "Middleware for adding request id to Symfony Request.",
     "license": "MIT",
     "require": {
-        "symfony/http-kernel": "^5.1.5",
-        "symfony/http-foundation": "^5.0.7",
+        "php": "^8.2",
+        "symfony/http-kernel": "^6.4 || ^7.4 || ^8.0",
+        "symfony/http-foundation": "^6.4 || ^7.4 || ^8.0",
         "ramsey/uuid": "^4.0"
     },
     "authors": [
@@ -35,8 +36,8 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "broadway/coding-standard": "^1.2",
-        "phpstan/phpstan": "^1.0"
+        "phpunit/phpunit": "^11.5",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpstan/phpstan": "^2.0"
     }
 }

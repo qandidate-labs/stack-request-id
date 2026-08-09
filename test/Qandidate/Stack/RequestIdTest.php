@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Qandidate\Stack;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,9 +33,7 @@ class RequestIdTest extends TestCase
         $this->stackedApp = new RequestId($this->app, $this->requestIdGenerator, $this->header);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_calls_the_generator_when_no_request_id_is_present()
     {
         $this->requestIdGenerator->expects($this->once())
@@ -43,23 +42,19 @@ class RequestIdTest extends TestCase
         $this->stackedApp->handle($this->createRequest());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_sets_the_request_id_in_the_header()
     {
         $this->requestIdGenerator->expects($this->once())
             ->method('generate')
-            ->will($this->returnValue('yolo'));
+            ->willReturn('yolo');
 
         $this->stackedApp->handle($this->createRequest());
 
         $this->assertEquals('yolo', $this->app->getLastHeaderValue());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_does_not_set_a_new_request_id_if_it_was_already_present()
     {
         $this->requestIdGenerator->expects($this->never())
@@ -70,46 +65,40 @@ class RequestIdTest extends TestCase
         $this->assertEquals('foo', $this->app->getLastHeaderValue());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_sets_the_request_id_in_the_response_header_if_enabled()
     {
         $this->stackedApp->enableResponseHeader();
 
         $this->requestIdGenerator->expects($this->any())
             ->method('generate')
-            ->will($this->returnValue('yolo'));
+            ->willReturn('yolo');
 
         $response = $this->stackedApp->handle($this->createRequest());
 
         $this->assertSame('yolo', $response->headers->get($this->header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_sets_the_request_id_in_a_custom_response_header_if_given()
     {
         $this->stackedApp->enableResponseHeader('Request-Id');
 
         $this->requestIdGenerator->expects($this->any())
             ->method('generate')
-            ->will($this->returnValue('yolo'));
+            ->willReturn('yolo');
 
         $response = $this->stackedApp->handle($this->createRequest());
 
         $this->assertSame('yolo', $response->headers->get('Request-Id'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_set_the_response_header_from_the_constructor_argument()
     {
         $this->requestIdGenerator->expects($this->any())
             ->method('generate')
-            ->will($this->returnValue('yolo'));
+            ->willReturn('yolo');
 
         $responseHeader = 'Request-Id';
 
@@ -126,14 +115,12 @@ class RequestIdTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_override_the_response_header_argument_with_the_response_header_method()
     {
         $this->requestIdGenerator->expects($this->any())
             ->method('generate')
-            ->will($this->returnValue('yolo'));
+            ->willReturn('yolo');
 
         $alternateStackedApp = new RequestId($this->app, $this->requestIdGenerator, $this->header, 'Bad-Request-Id');
         $alternateStackedApp->enableResponseHeader('Good-Request-Id');
@@ -144,14 +131,12 @@ class RequestIdTest extends TestCase
         $this->assertTrue($response->headers->has('Good-Request-Id'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_does_not_set_the_request_id_in_the_response_header_by_default()
     {
         $this->requestIdGenerator->expects($this->any())
             ->method('generate')
-            ->will($this->returnValue('yolo'));
+            ->willReturn('yolo');
 
         $response = $this->stackedApp->handle($this->createRequest());
 
@@ -180,7 +165,7 @@ class MockApp implements HttpKernelInterface
         $this->recordHeader = $recordHeader;
     }
 
-    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    public function handle(Request $request, int $type = HttpKernelInterface::MAIN_REQUEST, bool $catch = true): Response
     {
         $this->headerValue = $request->headers->get($this->recordHeader);
 
