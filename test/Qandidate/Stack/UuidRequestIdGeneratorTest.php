@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace Qandidate\Stack;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UuidRequestIdGeneratorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_generates_a_string()
     {
         $generator = new UuidRequestIdGenerator();

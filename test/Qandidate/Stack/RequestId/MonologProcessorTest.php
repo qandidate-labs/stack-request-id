@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Qandidate\Stack\RequestId;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -27,9 +28,7 @@ class MonologProcessorTest extends TestCase
         $this->processor = new MonologProcessor($this->header);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_adds_the_request_id_if_it_was_available_in_the_request()
     {
         $record = ['message' => 'w00t w00t'];
@@ -44,9 +43,7 @@ class MonologProcessorTest extends TestCase
         $this->assertEquals($expectedRecord, $this->invokeProcessor($record));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_leaves_the_record_untouched_if_no_request_id_was_available_in_the_request()
     {
         $record = ['message' => 'w00t w00t'];
@@ -59,9 +56,7 @@ class MonologProcessorTest extends TestCase
         $this->assertEquals($expectedRecord, $this->invokeProcessor($record));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_leaves_the_record_untouched_if_no_request_was_handled()
     {
         $record = ['message' => 'w00t w00t'];
@@ -84,7 +79,7 @@ class MonologProcessorTest extends TestCase
         $getResponseEventMock
             ->expects($this->any())
             ->method('getRequest')
-            ->will($this->returnValue($request));
+            ->willReturn($request);
 
         return $getResponseEventMock;
     }

@@ -32,9 +32,6 @@ class UuidRequestIdGenerator implements RequestIdGenerator
         $this->nodeId = $nodeId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function generate(): string
     {
         return Uuid::uuid1($this->nodeId)->toString();
